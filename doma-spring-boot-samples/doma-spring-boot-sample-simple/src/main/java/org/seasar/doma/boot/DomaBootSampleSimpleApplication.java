@@ -17,13 +17,9 @@ package org.seasar.doma.boot;
 
 import java.util.List;
 
-import org.seasar.doma.boot.autoconfigure.DomaConfigBuilder;
-import org.seasar.doma.jdbc.ClassHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,25 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 public class DomaBootSampleSimpleApplication {
-
-	private ClassHelper classHelper = new MyClassHelper();
-
-	private static class MyClassHelper implements ClassHelper {
-		@SuppressWarnings("unchecked")
-		@Override
-		public <T> Class<T> forName(String className) throws Exception {
-			return (Class<T>)this.getClass().getClassLoader().loadClass(className);
-		}
-	}
-
-	@Bean
-	public DomaConfigBuilder domaConfigBuilder() {
-		return new DomaConfigBuilder() {
-			public ClassHelper classHelper() {
-				return classHelper;
-			}
-		};
-	}
 
 	@Autowired
 	MessageDao messageDao;
